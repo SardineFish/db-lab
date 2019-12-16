@@ -1,7 +1,7 @@
 export interface Student
 {
     name: string;
-    sno: number;
+    sno: string;
     gender: string;
     age: number;
     department: string;
@@ -10,15 +10,15 @@ export interface Student
 
 export interface Course
 {
-    cno: number;
+    cno: string;
     name: string;
-    priorCourse: number;
+    priorCourse: string;
     credit: number;
 }
 
 export interface StudentCourse
 {
-    sno: number;
-    cno: number;
+    sno: string;
+    cno: string;
     grade: number;
 }

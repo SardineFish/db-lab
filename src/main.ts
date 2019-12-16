@@ -11,7 +11,7 @@ function createWindow()
         }
     });
 
-    win.loadFile("./pages/console.html");
+    win.loadFile("./pages/index.html");
 
 }
 app.on('ready', createWindow);
