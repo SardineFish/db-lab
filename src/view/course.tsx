@@ -1,7 +1,7 @@
 import React, { FormEvent } from "react";
 import { Layout, Menu, PageHeader, Spin, Alert, Select, InputNumber, Input, Button, message } from "antd";
 import { Course } from "../data-mode/data";
-import { EditableTable } from "../component/editable-table";
+import { EditableTable, EditableColumnProps } from "../component/editable-table";
 import { ColumnProps } from "antd/lib/table";
 import { CourseController } from "../controller/course-controller";
 import Form, { WrappedFormInternalProps } from "antd/lib/form/Form";
@@ -94,11 +94,12 @@ class NewCourseForm extends React.Component<WrappedFormInternalProps, { courses:
 const WrappedNewCourseForm = Form.create()(NewCourseForm);
 
 
-const CourseTableColumn: ColumnProps<Course>[] = [
+const CourseTableColumn: EditableColumnProps<Course>[] = [
     {
         title: "ID",
         dataIndex: "cno",
-        key: "cno"
+        key: "cno",
+        editable: false
     },
     {
         title: "Name",

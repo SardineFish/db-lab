@@ -2,18 +2,19 @@ import React from "react";
 import antd, { Layout, Menu, Icon, Spin, Alert, message, PageHeader, Form, Input } from "antd";
 import { ColumnProps } from "antd/lib/table";
 import { Student } from "../data-mode/data";
-import { EditableTable } from "../component/editable-table";
+import { EditableTable, EditableColumnProps } from "../component/editable-table";
 import { DataBase } from "../db/db";
 import { StudentController } from "../controller/student-controller";
 import { FormWrappedProps } from "antd/lib/form/interface";
 import { FormComponentProps } from "antd/lib/form";
 import { WrappedNewStudentForm } from "../component/new-student";
 
-const StudentTableColumns: ColumnProps<Student>[] = [
+const StudentTableColumns: EditableColumnProps<Student>[] = [
     {
         title: "ID",
         dataIndex: "sno",
-        key: "sno"
+        key: "sno",
+        editable: false
     },
     {
         title: "Name",
@@ -68,6 +69,7 @@ export class StudentManager extends React.Component<{}, { mode: "data" | "new" |
         {
             var x = err;
             message.error(`Delete failed: ${err.message}`);
+            return false;
         }
     }
     async editStudent(student: Student)
@@ -81,6 +83,7 @@ export class StudentManager extends React.Component<{}, { mode: "data" | "new" |
         {
             var x = err;
             message.error(`Update failed: ${err.message}`);
+            return false;
         }
 
     }
@@ -108,11 +111,11 @@ export class StudentManager extends React.Component<{}, { mode: "data" | "new" |
                     <Menu defaultSelectedKeys={["data"]} onSelect={(e)=>this.setState({mode:e.key})}>
                         <Menu.Item key="data" onSelect={() => this.setState({ mode: "data" })}>
                             <Icon type="database" />
-                            <span>学生信息</span>
+                            <span>Students Info</span>
                         </Menu.Item>
                         <Menu.Item key="new" onSelect={() => this.setState({ mode: "new" })}>
                             <Icon type="usergroup-add" />
-                            <span>新生入学</span>
+                            <span>New Student</span>
                         </Menu.Item>
                     </Menu>
                 </Layout.Sider>
@@ -125,7 +128,7 @@ export class StudentManager extends React.Component<{}, { mode: "data" | "new" |
                                 </Spin>
                                 : (<Layout.Content>
                                     <PageHeader title="Students Info"></PageHeader>
-                                    <EditableTable columns={StudentTableColumns} dataSource={this.state.students} onDelete={d=>this.deleteStudent(d)} >
+                                    <EditableTable columns={StudentTableColumns} dataSource={this.state.students} onEdit={s=>this.editStudent(s)} onDelete={d=>this.deleteStudent(d)} >
                                     
                                     </EditableTable>
                                 </Layout.Content>)

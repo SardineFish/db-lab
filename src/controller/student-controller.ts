@@ -12,6 +12,18 @@ interface StudentRow
     Scholarship: string,
 };
 
+export const wrapStudentData = (data: StudentRow): Student =>
+{
+    return {
+        sno: data.Sno.replace(/ /g, ""),
+        name: data.Sname.replace(/ /g, ""),
+        age: data.Sage,
+        gender: data.Ssex.replace(/ /g, ""),
+        department: data.Sdept.replace(/ /g, ""),
+        scholarship: data.Scholarship === "是"
+    };
+};
+
 async function get() : Promise<Student[]>
 {
     await DataBase.connect();
@@ -20,14 +32,18 @@ async function get() : Promise<Student[]>
     const result = await DataBase.pool.request()
         .query(query);
     const data = result.recordset as IRecordSet<StudentRow>;
-    return data.map(t => (<Student>{
-        sno: t.Sno.replace(/ /g, ""),
-        name: t.Sname.replace(/ /g, ""),
-        age: t.Sage,
-        gender: t.Ssex.replace(/ /g, ""),
-        department: t.Sdept.replace(/ /g, ""),
-        scholarship: t.Scholarship === "是"
-    }));
+    return data.map(wrapStudentData);
+}
+
+async function getBySno(sno: string): Promise<Student>
+{
+    await DataBase.connect();
+
+    const query = `SELECT * FROM Student WHERE Sno = '${sno}'`;
+    const result = await DataBase.pool.request()
+        .query(query);
+    const data = result.recordset as IRecordSet<StudentRow>;
+    return data.length > 0 ? wrapStudentData(data[0]) : null;
 }
 
 async function add(data: Student): Promise<void>
@@ -76,7 +92,7 @@ async function update(student: Student)
             Ssex = '${student.gender}',
             Sage = ${student.age},
             Sdept = '${student.department}',
-            Scholarship = '${student.scholarship}'
+            Scholarship = '${student.scholarship ? '是' : '否'}'
         WHERE Sno = ${student.sno}`;
     const result = await DataBase.pool.request()
         .query(query);
@@ -84,6 +100,7 @@ async function update(student: Student)
 
 export const StudentController = {
     get: get,
+    getBySno: getBySno,
     add: add,
     remove: remove,
     update: update

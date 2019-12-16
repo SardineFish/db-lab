@@ -10,6 +10,16 @@ interface CourseRow
     Ccredit: number;
 };
 
+export const wrapCourseData = (data: CourseRow): Course =>
+{
+    return {
+        name: data.Cname.replace(/ /g, ""),
+        cno: data.Cno.replace(/ /g, ""),
+        priorCourse: data.Cpno === null ? "" : data.Cpno.replace(/ /g, ""),
+        credit: data.Ccredit
+    };
+}
+
 async function get(): Promise<Course[]>
 {
     await DataBase.connect();
@@ -18,12 +28,18 @@ async function get(): Promise<Course[]>
     const result = await DataBase.pool.request()
         .query(query);
     const data = result.recordset as IRecordSet<CourseRow>;
-    return data.map(t => (<Course>{
-        name: t.Cname.replace(/ /g, ""),
-        cno: t.Cno.replace(/ /g, ""),
-        priorCourse: t.Cpno === null ? "" : t.Cpno.replace(/ /g, ""),
-        credit: t.Ccredit
-    }));
+    return data.map(wrapCourseData);
+}
+
+async function getByCno(cno: string): Promise<Course>
+{
+    await DataBase.connect();
+
+    const query = `SELECT * FROM Course`;
+    const result = await DataBase.pool.request()
+        .query(query);
+    const data = result.recordset as IRecordSet<CourseRow>;
+    return data.length > 0 ? wrapCourseData(data[0]) : null;
 }
 
 async function add(data: Course): Promise<void>
@@ -83,6 +99,7 @@ async function removeEmpty()
 
 export const CourseController = {
     get: get,
+    getByCno: getByCno,
     add: add,
     remove: remove,
     update: update

@@ -18,7 +18,7 @@ export interface Course
 
 export interface StudentCourse
 {
-    sno: string;
-    cno: string;
-    grade: number;
+    student: Student;
+    course: Course;
+    grade: number | null;
 }

@@ -21,7 +21,6 @@ class App extends React.Component<{}, {view: "student" | "course" | "student-cou
         return (
             <Layout style={{ height: "100%", width: "100%", position: "absolute" }}>
                 <Layout.Header>
-                    <div className="logo"></div>
                     <Menu theme="dark" mode="horizontal" defaultSelectedKeys={["student"]} style={{lineHeight:"64px"}} onSelect={(e)=>this.setState({view:e.key})}>
                         <Menu.Item key="student">
                             <Icon type="user" />
