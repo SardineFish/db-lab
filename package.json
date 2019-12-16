@@ -1,0 +1,26 @@
+{
+  "name": "db-lab",
+  "version": "1.0.0",
+  "description": "Stupid project for data-base course.",
+  "main": "./build/main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build:watch": "npx tsc -w"
+  },
+  "author": "SardineFish",
+  "license": "MIT",
+  "devDependencies": {
+    "electron": "^7.1.5",
+    "typescript": "^3.7.3"
+  },
+  "dependencies": {
+    "@types/mssql": "^6.0.0",
+    "@types/react-dom": "^16.9.4",
+    "antd": "^3.26.3",
+    "linq": "^3.2.1",
+    "mssql": "^6.0.1",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
+    "redux": "^4.0.4"
+  }
+}
