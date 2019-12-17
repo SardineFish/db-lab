@@ -5,7 +5,9 @@
   "main": "./build/main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build:watch": "npx tsc -w"
+    "build:watch": "npx tsc -w",
+    "build" : "npx tsc",
+    "start": "npx electron ."
   },
   "author": "SardineFish",
   "license": "MIT",
