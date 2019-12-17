@@ -142,7 +142,7 @@ class StudentQuery extends React.Component<WrappedFormInternalProps, { student: 
     };
     render()
     {
-        const { getFieldDecorator } = this.props.form;
+        const { getFieldDecorator, getFieldsError } = this.props.form;
         const columns: ColumnProps<StudentCourse>[] = [
             {
                 title: "Course",
@@ -160,6 +160,10 @@ class StudentQuery extends React.Component<WrappedFormInternalProps, { student: 
                 dataIndex: "grade"
             }
         ];
+        const hasErrors = (fieldsError : any) =>
+        {
+            return Object.keys(fieldsError).some(field => fieldsError[field]);
+        };
         return (
             <Layout.Content style={contentStyle}>
                 <PageHeader title="Student Query"></PageHeader>
@@ -176,14 +180,14 @@ class StudentQuery extends React.Component<WrappedFormInternalProps, { student: 
 
                     </Form.Item>
                     <Form.Item>
-                        <Button type="primary" htmlType="submit">Query</Button>
+                        <Button type="primary" htmlType="submit" disabled={hasErrors(getFieldsError())}>Query</Button>
                     </Form.Item>
 
                 </Form>
                 {
                     this.state.student
                         ? <Layout.Content>
-                            <Descriptions title="Student Info">
+                            <Descriptions title="Student Info" style={{marginTop: 24}}>
                                 <Descriptions.Item label="Student ID">{this.state.student.sno}</Descriptions.Item>
                                 <Descriptions.Item label="Name">{this.state.student.name}</Descriptions.Item>
                                 <Descriptions.Item label="Age">{this.state.student.age}</Descriptions.Item>
@@ -191,7 +195,7 @@ class StudentQuery extends React.Component<WrappedFormInternalProps, { student: 
                                 <Descriptions.Item label="Department">{this.state.student.department}</Descriptions.Item>
                                 <Descriptions.Item label="Scholarship">{this.state.student.scholarship? "Yes" : "No"}</Descriptions.Item>
                             </Descriptions>
-                            <Table columns={columns} dataSource={this.state.data} bordered></Table>
+                            <Table columns={columns} dataSource={this.state.data} bordered style={{ marginTop: 24 }}></Table>
                         </Layout.Content>
                         : null
                 }

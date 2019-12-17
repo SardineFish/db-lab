@@ -58,7 +58,7 @@ class NewCourseForm extends React.Component<WrappedFormInternalProps, { courses:
                 </Form.Item>
                 <Form.Item label="Credit">
                     {getFieldDecorator("credit", {
-                        initialValue: 18,
+                        initialValue: 2,
                         rules: [{ required: true, message: "Credit of this course is required." }]
                     })(<InputNumber />)}
                 </Form.Item>
